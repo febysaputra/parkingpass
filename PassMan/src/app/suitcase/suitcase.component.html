@@ -1,0 +1,43 @@
+<div class="container">
+	<div class="row">
+	  <div class="col-xs-6 col-md-6 col-md-offset-3">
+	    <a *ngIf="!hasKey" href="javascript:void(0)" (click)="modal.open()" class="thumbnail">
+	      <img src="../../assets/suitcase.png" alt="suitcase" class="img-responsive">
+	    </a>
+	   	<a *ngIf="hasKey" routerLink="/table">
+	   		<img src="../../assets/suitcase.png" alt="suitcase" class="img-responsive" style="margin:0 auto ">
+	    </a>
+	    <div class="caption">
+	        <h3 style="text-align: center;">Open Your Suitcase</h3>
+	     </div>
+	  </div>
+	</div>
+</div>
+
+
+<!-- modals -->
+
+<modal #modal>
+    <modal-header [show-close]="true">
+    	<h4 class="modal-title">Set key master</h4>
+    </modal-header>
+    <form>
+	    <modal-body>
+
+	    	<div class="form-group">
+	        
+	        <div class="col-sm-12">
+	          <input type="password" class="form-control" placeholder="Password" name="master_key" [(ngModel)]="master_key" required>
+	        </div>
+	      </div>
+
+
+	    </modal-body><br><br>
+	    <modal-footer>
+	    	  <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+	        
+	        <button type="submit" class="btn btn-primary" (click)="setKey()" data-dismiss="modal" >Submit</button>
+	    </modal-footer>
+    </form>
+</modal>
+<!-- end of modals -->
