@@ -53,13 +53,14 @@ export class TablecaseComponent implements OnInit {
     this.pass = '';
     this.keterangan = '';
     this.getAll();
+
   }
 
   getAll(){
     this.authenticationService.getAllItem()
       .subscribe(
         data => {
-          console.log('hmmmm',data.result);
+          console.log('datalistnya',data);
           if(data.status){
 
             this.datalist = data.result; 
@@ -72,22 +73,23 @@ export class TablecaseComponent implements OnInit {
               console.log('panjang list', this.datalist.length);
 
           }
+          else
+            this.datalist=[]
       })
 
   }
 
 
 
-  retrieve(id_manpass:string){
+  retrieve(id_manpass:string, ol){
     console.log('id manpas', id_manpass);
   	let header= new Headers();
     header.append('Content-type', 'application/json' );
     this.authenticationService.getPlainPass(this.master_key, id_manpass)
     .subscribe(
       data=> {
-        // this.datalist = data;
         console.log(this.datalist);
-        console.log('ini hasil request beenran ada', data);
+        console.log('ini hasil request beenran ada', data.status);
 
         if(data.status){
           var id_mp = data.result.id_manpass;
@@ -96,12 +98,16 @@ export class TablecaseComponent implements OnInit {
           var posisi = this.datalist.findIndex(x => x.id_manpass == id_mp);
           
           this.datalist[posisi].password_acc = pass_dec;
+          this.datalist[ol].status="success";
+          this.datalist[ol].button="disabled";
 
           swal(
             'Berhasil!',
             'Password terdekripsi',
             'success'
           )
+
+
         }
         else
           swal(
@@ -113,8 +119,6 @@ export class TablecaseComponent implements OnInit {
     );
     // ngmodel to null after submit current master for current pass
     this.master_key='';
-/*    this.datalist[i].status="success";
-    this.datalist[i].button="disabled";*/
 
   }
 
