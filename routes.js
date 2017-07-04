@@ -1,7 +1,7 @@
 var user = require('./models/user');
 var brankas = require('./models/brankas');
 var token = require('./token.js');
-// var aes = require('./aes.js');
+var aes = require('./aes.js');
 
 module.exports = {
 	configure: function(app){
@@ -39,8 +39,8 @@ module.exports = {
 			brankas.getAllItem(req.params.id, res);
 		});
 
-		app.get('/deleteitem/:id/:id_manpass', function(req, res){
-			brankas.deleteitem(req.params.id,req.params.id_manpass, res);
+		app.post('/deleteitem', function(req, res){
+			brankas.deleteItem(req.body, res);
 		});		
 
 		/* */
@@ -48,10 +48,27 @@ module.exports = {
 			token.checkToken(req.body, res);
 		});
 
-		// app.get('/cacad', function(req, res){
-		// 	var buset = aes.decrypt('cdc12e240ca538ef379dcec61537c68e','e75a6cd43a16c2f31d1a3c17700af64d3658a380c49d65b20cc75b1f7c0e001b');
-		// 	res.send(buset);
-		// });
+		app.get('/aes', function(req, res){
+			var mode = req.query.mode;
+			var text = req.query.text;
+			var key = req.query.key || "PassMantab";
+			var result;
 
+			if(mode == "enc"){
+				try{
+					result = aes.encrypt(text,key);
+					res.send(result);
+				}catch(err){
+					res.send(err);
+				}
+			}else if(mode == "dec"){
+				try{
+					result = aes.decrypt(text,key);
+					res.send(result);
+				}catch(err){
+					res.send(err)
+				}
+			}
+		})
 	}
 }

@@ -15,13 +15,16 @@
       <ul class="nav navbar-nav" >
       </ul>
 
-      <ul class="nav navbar-nav navbar-right" *ngIf="!authenticationService.loggedin">
-        <li class="nav-item">
-          <a class="nav-link" href="#" routerLinkActive="active" [routerLink]="['/register']"><i class="icon-puzzle"></i> Register</a>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="nav-item"  *ngIf="!isLoggedin">
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/register']"><i class="icon-puzzle"></i> Register</a>
+        </li>
+        <li class="nav-item"  *ngIf="isLoggedin">
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/suitcase']"><i class="icon-puzzle"></i> My Password</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLinkActive="active" [routerLink]="['/login']"><i class="icon-puzzle"></i> Login</a>
-          <a *ngIf="authenticationService.loggedin" class="nav-link" (click)="logout()"><i class="icon-puzzle"></i> Logout</a>
+          <a class="nav-link"  *ngIf="!isLoggedin" routerLinkActive="active" [routerLink]="['/login']"><i class="icon-puzzle"></i> Login</a>
+          <a *ngIf="isLoggedin" class="nav-link" (click)="logout()"><i class="icon-puzzle"></i> Logout</a>
         </li>
 
       </ul>

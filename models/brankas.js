@@ -5,7 +5,7 @@ var aes = require('../aes.js');
 
 function Brankas(){
 	this.getItem = function(data, res){ //untuk get real password
-		let konci = crypto.createHash('md5').update(data.master_pass).digest('hex');
+		let konci = data.master_pass;
 		let token_decoded = modtoken.decodeToken(data.tokenkey, res);
 		let id_manpass = data.id_manpass;
 
@@ -25,8 +25,8 @@ function Brankas(){
 								res.json({"status":false, "message":"unfortunately"});
 							}else{
 								console.log(result);
-								result[0].password_acc = aes.decrypt(result[0].password_acc,konci);
-								res.json({"status":true, "message":"retrieving real password success", "result": result[0].password_acc});
+								let res_dec = aes.decrypt(result[0].password_acc,konci);
+								res.json({"status":true, "message":"retrieving real password success", "result": {"origin": res_dec, "id_manpass":id_manpass}});
 							}
 						}else{
 							res.json({"status":false, "message":"Error retrieving data"});
@@ -70,10 +70,11 @@ function Brankas(){
 		}
 	}
 	
-	this.deleteItem = function(data, res){ //untuk get real password
+	this.deleteItem = function(data, res){ //delete password
 
-		let token_decoded = modtoken.decodeToken(data.tokenkey, res);
+		let token_decoded = modtoken.decodeToken(data.token, res);
 		let id_manpass = data.id_manpass;
+
 		console.log(token_decoded);
 
 		if(!token_decoded){
@@ -81,17 +82,12 @@ function Brankas(){
 		}else{
 			conn.acquire(function(err, con){
 				if(!err){
-					var query = 'DELETE * FROM manpass WHERE id_user_fk = ? AND id_manpass = ?';
+					var query = 'DELETE FROM manpass WHERE id_user_fk = ? AND id_manpass = ?';
 					var query_data = [token_decoded.id, id_manpass]; 
 					con.query(query, query_data, function(err, result){
 						con.release();
 						if(err == null){
-							if(!result.length){
-								res.json({"status":false, "message":"unfortunately"});
-							}else{
-
-								res.json({"status":true, "message":"delete item success"});
-							}
+							res.json({"status":true, "message":"delete item success"});
 						}else{
 							res.json({"status":false, "message":"Error retrieving data"});
 						}
@@ -104,11 +100,10 @@ function Brankas(){
 	}	
 
 	this.setItem = function(data, res){
-		let token_decoded = modtoken.decodeToken(data.token, res);
-		let acc = data.account;
-		let pass_acc = data.password_acc;
-		let ket = data.keterangan;
-		let konci;
+		var token_decoded = modtoken.decodeToken(data.token, res);
+		var acc = data.account;
+		var pass_acc = data.password_acc;
+		var ket = data.keterangan;
 
 		if(acc == '' || pass_acc == ''){
 			res.json({"status": false, "message":"there is empty field"});
@@ -125,8 +120,11 @@ function Brankas(){
 							if(!result.length){
 								res.json({"status":false, "message":"unfortunately"});
 							}else{
-								konci = result[0].tokenkey;
+								console.log(result);
+								let konci = aes.decrypt(result[0].tokenkey, 'PassMantab');
+								
 								pass_acc = aes.encrypt(pass_acc,konci);
+								console.log(pass_acc);
 								var query = 'INSERT INTO manpass SET ?';
 								var query_data = {id_user_fk: token_decoded.id, account: acc, password_acc: pass_acc, keterangan:ket}; 
 								con.query(query, query_data, function(err, result){

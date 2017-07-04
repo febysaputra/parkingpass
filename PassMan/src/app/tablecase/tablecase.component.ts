@@ -49,6 +49,9 @@ export class TablecaseComponent implements OnInit {
   keterangan='';
 
   ngOnInit() {
+    this.akun = '';
+    this.pass = '';
+    this.keterangan = '';
     this.getAll();
   }
 
@@ -82,16 +85,23 @@ export class TablecaseComponent implements OnInit {
     this.authenticationService.getPlainPass(this.master_key, id_manpass)
     .subscribe(
       data=> {
-        this.datalist = data;
-        console.log(data.message)
+        // this.datalist = data;
+        console.log(this.datalist);
         console.log('ini hasil request beenran ada', data);
+
         if(data.status){
+          var id_mp = data.result.id_manpass;
+          var pass_dec = data.result.origin;
+
+          var posisi = this.datalist.findIndex(x => x.id_manpass == id_mp);
+          
+          this.datalist[posisi].password_acc = pass_dec;
+
           swal(
-            'Good Job!',
-            'You clicked the button!',
+            'Berhasil!',
+            'Password terdekripsi',
             'success'
           )
-          this.ngOnInit();
         }
         else
           swal(
@@ -127,8 +137,8 @@ export class TablecaseComponent implements OnInit {
         console.log(data.message);
         if(data.status){
           swal(
-            'Good Job!',
-            'You clicked the button!',
+            'Berhasil!',
+            'Data password ditambahkan',
             'success'
           )
           this.ngOnInit();
@@ -143,8 +153,8 @@ export class TablecaseComponent implements OnInit {
     );    
   }
 
-  deleteItem(id_manpass, id_user_fk){
-    swal({
+  deleteConfirm(){
+    return swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       type: 'warning',
@@ -152,12 +162,25 @@ export class TablecaseComponent implements OnInit {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!'
-    }).then(function () {
-      swal(
-        'Deleted!',
-        'Your file has been deleted.',
-        'success'
-      )
-    })    
+    })  
+  }
+
+  deleteItem(id){
+    this.deleteConfirm().then(res => {
+      this.authenticationService.deleteItem(id)
+        .subscribe(data =>{
+          if(data.status){
+            swal(
+              'Deleted!',
+              'Your file has been deleted.',
+              'success'
+            )
+            this.ngOnInit();
+          }else{
+            console.log(data);
+          }
+        })
+    }).catch(err => {})
+    
   }
 }

@@ -16,8 +16,10 @@ export class AuthenticationService {
   pathSetItem = 'http://localhost:2370/setitem';
   pathGetItem = 'http://localhost:2370/getitem';
   pathGetAllItem = 'http://localhost:2370/getallitem/';
+  pathDeleteItem = 'http://localhost:2370/deleteitem'
 
-  public loggedin: boolean;
+  public loggedin = new Subject<boolean>();
+  public loggedinObserver = this.loggedin.asObservable();
 
   constructor(private http:Http) { }
 
@@ -39,6 +41,11 @@ export class AuthenticationService {
         .map((response: Response) => 
         	response.json())
             
+  }
+
+  hasLogin(state){
+    console.log("has Login "+state);
+    this.loggedin.next(state);
   }
 
   logout() {
@@ -112,6 +119,16 @@ export class AuthenticationService {
     header.append('Content-type', 'application/json' );
 
     return this.http.post(this.pathSetItem, send, {headers:header})
+        .map((response: Response) => 
+          response.json())
+  }
+
+  deleteItem(id_pass){
+    let send = JSON.stringify({token:localStorage.getItem('currentUser'),id_manpass: id_pass});
+    let header = new Headers();
+    header.append('Content-type', 'application/json' );
+
+    return this.http.post(this.pathDeleteItem, send, {headers:header})
         .map((response: Response) => 
           response.json())
   }

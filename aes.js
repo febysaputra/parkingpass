@@ -1,46 +1,24 @@
 var crypto = require('crypto');
 
 function Aes(){
-	let algorithm = "aes256";
-	let tempiv = "hahahahahahahaha";
-	let iv  = (tempiv instanceof Buffer) ? tempiv : new Buffer(tempiv) ;
-	let encoding = "base64" || "binary";
+	var algorithm = "aes256";
+	var encoding = "base64";
 
-    function encrypt (text, key) {
-    		var keyBuffer  = (key instanceof Buffer) ? key : new Buffer(key) ;
-	        var cipher = crypto.createCipheriv(algorithm, keyBuffer, iv);
-
-	        
-
-	        var result = cipher.update(text, "utf8", encoding);
-	        result += cipher.final(encoding);
-
-	        var decipher = crypto.createDecipheriv(algorithm, keyBuffer, iv);
-
-	        var result1 = decipher.update(result, encoding);
-	        result1 += decipher.final();
-
-	        console.log(result1);
+    this.encrypt = function(text, key) {
+			var cipher = crypto.createCipher(algorithm,key);
+			var result = cipher.update(text, "utf8", encoding);
+			result += cipher.final(encoding);
 
 	        return result;
     }
 
-    function decrypt (text, key) {
-    		console.log(text);
-    		var keyBuffer  = (key instanceof Buffer) ? key : new Buffer(key) ;
-	        var decipher = crypto.createDecipheriv(algorithm, keyBuffer, iv);
-
-
+    this.decrypt = function(text, key) {
+			var decipher = crypto.createDecipher(algorithm, key);
 	        var result = decipher.update(text, encoding);
 	        result += decipher.final();
 
 	        return result;
     }
-
-    return {
-    	encrypt: encrypt,
-    	decrypt: decrypt
-    };
 }
 
 module.exports = new Aes();

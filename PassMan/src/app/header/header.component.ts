@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
+import { Subscription } from 'rxjs/Subscription';
+import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-header',
@@ -8,11 +11,20 @@ import { AuthenticationService } from '../services/authentication.service';
   providers:[AuthenticationService]
 })
 export class HeaderComponent implements OnInit {
+  isLoggedin: boolean;
+  subscription: Subscription;
 
-  constructor(public authenticationService: AuthenticationService) { }
+  constructor(public router: Router, public authenticationService: AuthenticationService) {
+    this.authenticationService.loggedinObserver.subscribe(state => {
+      this.isLoggedin = state;
+      console.log("Ada disini woy!", state);
+    })
+    if(localStorage.getItem('currentUser')){
+      this.isLoggedin = true;
+    }
+   }
 
   ngOnInit() {
-
   }
 
   logout(){
@@ -22,7 +34,8 @@ export class HeaderComponent implements OnInit {
             'Logout Success!',
             'success'
           )
-  	 this.authenticationService.loginState(true);
+  	 this.authenticationService.hasLogin(false);
+     this.router.navigate(['/home']);
   }
 
 }

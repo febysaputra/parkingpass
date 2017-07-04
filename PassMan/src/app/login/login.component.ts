@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
             'Login Success!',
             'success'
           )
-          this.authenticationService.loginState(true);
+          this.authenticationService.hasLogin(true);
           localStorage.setItem('currentUser', data.token);
           this.router.navigate(['suitcase']);//if succes masuk ke halaman lain
         }

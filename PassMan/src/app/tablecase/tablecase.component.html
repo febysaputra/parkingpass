@@ -27,7 +27,7 @@
 	      	</span>
 	      </td>
 	      <td><span>
-	      	<i class="fa fa-trash-o" aria-hidden="true"></i> <a href="javascript:void(0)"(click)="deleteItem()">delete</a>
+	      	<i class="fa fa-trash-o" aria-hidden="true"></i> <a href="javascript:void(0)"(click)="deleteItem(item.id_manpass)">delete</a>
 	      	</span>
 	      </td>	          
 
@@ -79,7 +79,7 @@
 						    </div>
 							<div class="form-group">
 						      <div class="col-md-10">
-						        <input class="form-control" id="password_acc" placeholder="Password Akun" name="pass" type="password" [(ngModel)]="pass">
+						        <input class="form-control" id="password_acc" placeholder="Password Akun" name="pass" type="text" [(ngModel)]="pass">
 						      </div>
 						    </div>						    
 							<div class="form-group">

@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 25, 2017 at 02:44 PM
--- Server version: 10.1.19-MariaDB
--- PHP Version: 7.0.13
+-- Generation Time: Jul 04, 2017 at 10:54 AM
+-- Server version: 10.1.16-MariaDB
+-- PHP Version: 5.6.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -39,7 +39,9 @@ CREATE TABLE `manpass` (
 --
 
 INSERT INTO `manpass` (`id_manpass`, `id_user_fk`, `account`, `password_acc`, `keterangan`) VALUES
-(2, 2, 'google', 'cdc12e240ca538ef379dcec61537c68e', NULL);
+(10, 4, 'google', '82KKLVerlkd1v++3ZoxbQA==', 'google'),
+(13, 2, 'steam', 'HgPbjVKAEZOTNTr8vh4s+A==', 'steam pass'),
+(14, 2, 'paypal', 'CMC7TI+HUIdaYidkKoEeNw==', 'segalanya');
 
 -- --------------------------------------------------------
 
@@ -59,9 +61,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `email`, `master_pass`, `tokenkey`) VALUES
-(1, 'cacad@tuta.io', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'cacad'),
-(2, 'baba@tuta.io', 'e75a6cd43a16c2f31d1a3c17700af64d3658a380c49d65b20cc75b1f7c0e001b', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'),
-(3, 'haha@haha.com', '090b235e9eb8f197f2dd927937222c570396d971222d9009a9189e2b6cc0a2c1', '090b235e9eb8f197f2dd927937222c570396d971222d9009a9189e2b6cc0a2c1');
+(1, 'cacad@tuta.io', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'gArc81odSfO7Uq42GCkpTg=='),
+(2, 'baba@tuta.io', 'e75a6cd43a16c2f31d1a3c17700af64d3658a380c49d65b20cc75b1f7c0e001b', 'M23+M40bnfOOTOSM8D2QbA=='),
+(3, 'haha@haha.com', '090b235e9eb8f197f2dd927937222c570396d971222d9009a9189e2b6cc0a2c1', 'gArc81odSfO7Uq42GCkpTg=='),
+(4, 'fksurado@tuta.io', '085adc293f49e05a442f6efcf8b200b9dd2aef4172a962fa968544621abab492', '3JhiSlikm21W2316jbRJ6Q==');
 
 --
 -- Indexes for dumped tables
@@ -88,12 +91,12 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `manpass`
 --
 ALTER TABLE `manpass`
-  MODIFY `id_manpass` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_manpass` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- Constraints for dumped tables
 --

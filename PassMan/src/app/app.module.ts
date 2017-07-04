@@ -24,6 +24,7 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { HomeComponent } from './home/home.component';
 import { SuitcaseComponent } from './suitcase/suitcase.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +44,7 @@ import { SuitcaseComponent } from './suitcase/suitcase.component';
     Ng2Bs3ModalModule
   ],
   providers: [{
-    provide: [LocationStrategy,AuthenticationService],
+    provide: [LocationStrategy, AuthenticationService],
     useClass: HashLocationStrategy
   }],
   bootstrap: [AppComponent]

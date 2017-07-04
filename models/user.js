@@ -1,8 +1,11 @@
 var conn = require('../connection.js');
+var aes = require('../aes.js');
 var crypto = require('crypto');
 var modtoken = require('../token.js');
 
 function User(){
+	var priv_key = "PassMantab";
+
 	this.login = function(data, res){
 		let email = data.email;
 		let pass = crypto.createHash('sha256').update(data.password).digest('hex');
@@ -104,9 +107,10 @@ function User(){
 	}*/
 
 	this.setKey = function(data, res){
+		console.log(data);
 		let token_decoded = modtoken.decodeToken(data.token, res);		
-		let key = crypto.createHash('md5').update(data.key).digest('hex');
-
+		let key = aes.encrypt(data.key,priv_key);
+		
 		if(key == ''){
 			res.json({"status": false, "message":"there is empty field"});
 		}else if(!token_decoded){

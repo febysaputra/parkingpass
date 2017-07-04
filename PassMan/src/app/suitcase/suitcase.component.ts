@@ -59,7 +59,7 @@ export class SuitcaseComponent implements OnInit {
   setKey(){
     let header= new Headers();
     header.append('Content-type', 'application/json' );
-    this.authenticationService.setKeySuitcase(this.tokenkey)
+    this.authenticationService.setKeySuitcase(this.master_key)
     .subscribe(
       data=> {
         console.log('ini hasil request beenran ada', data);
@@ -69,6 +69,7 @@ export class SuitcaseComponent implements OnInit {
             'Create Key Successfull!',
             'success'
           )
+          this.router.navigate(['table']);
         }
         else
           swal(
@@ -79,7 +80,7 @@ export class SuitcaseComponent implements OnInit {
      }
     );
     // ngmodel to null after submit current master for current pass
-    this.tokenkey='';
+    this.master_key='';
   }
 
   checkKey(){
